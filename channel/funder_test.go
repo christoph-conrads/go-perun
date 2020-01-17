@@ -14,11 +14,14 @@ import (
 
 func TestPeerTimedOutFundingError(t *testing.T) {
 	assert := assert.New(t)
-	err := NewPeerTimedOutFundingError(42)
-	perr, ok := errors.Cause(err).(*PeerTimedOutFundingError)
+	err := NewAssetFundingError(42, []uint16{1, 2, 3, 4})
+	perr, ok := errors.Cause(err).(*AssetFundingError)
 	assert.True(ok)
-	assert.Equal(Index(42), perr.TimedOutPeerIdx)
-	assert.True(IsPeerTimedOutFundingError(err))
-	assert.True(IsPeerTimedOutFundingError(perr))
-	assert.False(IsPeerTimedOutFundingError(errors.New("no PeerTimedOutFundingError")))
+	assert.Equal(42, perr.Asset)
+	assert.Equal(Index(1), perr.TimedOutPeers[0])
+	assert.Equal(Index(2), perr.TimedOutPeers[1])
+	assert.Equal(Index(3), perr.TimedOutPeers[2])
+	assert.True(IsAssetFundingError(err))
+	assert.True(IsAssetFundingError(perr))
+	assert.False(IsAssetFundingError(errors.New("no PeerTimedOutFundingError")))
 }
