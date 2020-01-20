@@ -67,15 +67,17 @@ func (f *Funder) Fund(ctx context.Context, request channel.FundingReq) error {
 
 	partIDs := calcFundingIDs(request.Params.Parts, channelID)
 
-	errChan := make(chan error, len(request.Allocation.Assets))
+	errChan := make(chan error, len(request.Allocation.Assets)+1)
 	errs := make([]*channel.AssetFundingError, len(request.Allocation.Assets))
 	var wg sync.WaitGroup
 	wg.Add(len(request.Allocation.Assets))
 	for index, asset := range request.Allocation.Assets {
 		go func(index int, asset channel.Asset) {
+			defer wg.Done()
 			contract, err := f.connectToContract(asset, index)
 			if err != nil {
 				errChan <- errors.Wrap(err, "Connecting to contracts failed")
+				return
 			}
 
 			confirmation := make(chan error)
@@ -85,6 +87,7 @@ func (f *Funder) Fund(ctx context.Context, request channel.FundingReq) error {
 
 			if err := f.fundAsset(ctx, request, contract, partIDs); err != nil {
 				errChan <- errors.Wrap(err, "Funding assets failed")
+				return
 			}
 			err = <-confirmation
 			if channel.IsAssetFundingError(err) {
@@ -92,8 +95,8 @@ func (f *Funder) Fund(ctx context.Context, request channel.FundingReq) error {
 			}
 			if err != nil {
 				errChan <- err
+				return
 			}
-			wg.Done()
 		}(index, asset)
 	}
 	wg.Wait()
@@ -182,10 +185,10 @@ func (f *Funder) waitForFundingConfirmation(ctx context.Context, request channel
 		return errors.WithMessage(err, "error creating watchopts")
 	}
 	sub, err := asset.WatchDeposited(watchOpts, deposited, partIDs)
-	defer sub.Unsubscribe()
 	if err != nil {
 		return errors.Wrapf(err, "WatchDeposit on asset %d failed", asset.assetIndex)
 	}
+	defer sub.Unsubscribe()
 
 	// we let the filter queries and all subscription errors write into this error
 	// channel.

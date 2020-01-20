@@ -16,7 +16,7 @@ import (
 )
 
 func init() {
-	plogrus.Set(logrus.WarnLevel, &logrus.TextFormatter{ForceColors: true})
+	plogrus.Set(logrus.DebugLevel, &logrus.TextFormatter{ForceColors: true})
 
 	// Eth client tests use the payment app for now...
 	// TODO: This has to be set to the deployed app contract (or counterfactual

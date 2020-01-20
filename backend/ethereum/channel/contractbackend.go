@@ -79,10 +79,12 @@ func (c *ContractBackend) newTransactor(ctx context.Context, valueWei *big.Int, 
 		return nil, err
 	}
 
-	gasPrice, err := c.SuggestGasPrice(ctx)
+	//gasPrice, err := c.SuggestGasPrice(ctx)
 	if err != nil {
-		return nil, err
+		//return nil, err
+
 	}
+	gasPrice := big.NewInt(1)
 
 	auth, err := bind.NewKeyStoreTransactor(c.ks, *c.account)
 	if err != nil {

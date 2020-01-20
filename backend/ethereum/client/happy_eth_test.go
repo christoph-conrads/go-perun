@@ -13,10 +13,11 @@ import (
 	"testing"
 	"time"
 
+	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
 	"perun.network/go-perun/backend/ethereum/channel"
-	"perun.network/go-perun/backend/ethereum/channel/test"
 	"perun.network/go-perun/backend/ethereum/wallet"
 	ethwallettest "perun.network/go-perun/backend/ethereum/wallet/test"
 	clienttest "perun.network/go-perun/client/test"
@@ -26,7 +27,7 @@ import (
 	wallettest "perun.network/go-perun/wallet/test"
 )
 
-var defaultTimeout = 5 * time.Second
+var defaultTimeout = 60 * time.Second
 
 func TestHappyAliceBobETH(t *testing.T) {
 	log.Info("Starting happy test")
@@ -41,15 +42,23 @@ func TestHappyAliceBobETH(t *testing.T) {
 	aliceAcc := wallettest.NewRandomAccount(rng)
 	bobAcc := wallettest.NewRandomAccount(rng)
 	aliceAccETH := aliceAcc.(*wallet.Account).Account
+	log.Infof("Creating Alice's account with address %s", aliceAccETH.Address.Hex())
+	// eth.sendTransaction({from:'0x72981b6d3657593218d59b8113fa4d7c0f13b5f9', to:'0x191198Cd6e6699a1CF1d96dBe468288DDC90327B', value: web3.toWei(1, "ether"), gas:21000});
 	bobAccETH := bobAcc.(*wallet.Account).Account
+	log.Infof("Creating Bob's account with address %s", bobAccETH.Address.Hex())
+	// eth.sendTransaction({from:'0x72981b6d3657593218d59b8113fa4d7c0f13b5f9', to:'0x4C6Fb6A04d28534382d165AA6A866e45c5a179b8', value: web3.toWei(1, "ether"), gas:21000});
 	// Create SimulatedBackend
-	backend := test.NewSimulatedBackend()
+	//backend := test.NewSimulatedBackend()
+	backend, err := ethclient.Dial("ws://localhost:8546")
+	assert.NoError(t, err, "connecting to node failed")
+	backendBob, err := ethclient.Dial("ws://localhost:8546")
+	assert.NoError(t, err, "connecting to node failed")
 	// Fund both accounts
-	backend.FundAddress(ctx, aliceAccETH.Address)
-	backend.FundAddress(ctx, bobAccETH.Address)
+	//backend.FundAddress(ctx, aliceAccETH.Address)
+	//backend.FundAddress(ctx, bobAccETH.Address)
 	// Create contract backends
 	cbAlice := channel.NewContractBackend(backend, ks, aliceAccETH)
-	cbBob := channel.NewContractBackend(backend, ks, bobAccETH)
+	cbBob := channel.NewContractBackend(backendBob, ks, bobAccETH)
 	// Deploy the contracts
 	adjAddr, err := channel.DeployAdjudicator(ctx, cbAlice)
 	require.NoError(t, err, "Adjudicator should deploy successful")

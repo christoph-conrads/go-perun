@@ -18,7 +18,7 @@ import (
 	"perun.network/go-perun/log"
 )
 
-const deployGasLimit = 6600000
+const deployGasLimit = 6200000
 
 // DeployETHAssetholder deploys a new ETHAssetHolder contract.
 func DeployETHAssetholder(ctx context.Context, backend ContractBackend, adjudicatorAddr common.Address) (common.Address, error) {
