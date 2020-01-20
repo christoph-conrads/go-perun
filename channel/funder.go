@@ -36,7 +36,7 @@ type (
 	}
 
 	// A FundingTimeoutError indicates that some peers failed funding some assets in time.
-	FundingTimeoutError []AssetFundingError
+	FundingTimeoutError []*AssetFundingError
 
 	// An AssetFundingError indicates the peers who timed-out funding a specific asset.
 	AssetFundingError struct {
@@ -46,7 +46,7 @@ type (
 )
 
 // NewFundingTimeoutError creates a new FundingTimeoutError.
-func NewFundingTimeoutError(fundingErrs []AssetFundingError) error {
+func NewFundingTimeoutError(fundingErrs []*AssetFundingError) error {
 	return errors.WithStack(FundingTimeoutError(fundingErrs))
 }
 
