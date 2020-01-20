@@ -72,7 +72,7 @@ func (f *Funder) Fund(ctx context.Context, request channel.FundingReq) error {
 	var wg sync.WaitGroup
 	wg.Add(len(request.Allocation.Assets))
 	for index, asset := range request.Allocation.Assets {
-		go func() {
+		go func(index int, asset channel.Asset) {
 			contract, err := f.connectToContract(asset, index)
 			if err != nil {
 				errChan <- errors.Wrap(err, "Connecting to contracts failed")
@@ -94,7 +94,7 @@ func (f *Funder) Fund(ctx context.Context, request channel.FundingReq) error {
 				errChan <- err
 			}
 			wg.Done()
-		}()
+		}(index, asset)
 	}
 	wg.Wait()
 	close(errChan)
