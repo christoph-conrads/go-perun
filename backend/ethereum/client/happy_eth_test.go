@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/EthLaika/go-laika/ethclient"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
