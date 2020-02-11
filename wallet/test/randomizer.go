@@ -11,10 +11,11 @@ import (
 	"perun.network/go-perun/wallet"
 )
 
-// Randomizer is the wallet testing backend. It currently supports the generation
-// of random addresses.
+// Randomizer is the wallet testing backend.
 type Randomizer interface {
+	// NewRandomAddress generates a random wallet.Address
 	NewRandomAddress(*rand.Rand) wallet.Address
+	// NewRandomAccount generates a random wallet.Account
 	NewRandomAccount(*rand.Rand) wallet.Account
 }
 
