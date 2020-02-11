@@ -25,9 +25,9 @@ type (
 	// PhaseTransitionError happens in case of an invalid channel machine phase
 	// transition
 	PhaseTransitionError struct {
-		ID      ID
-		current Phase
-		PhaseTransition
+		ID              ID    // channel id
+		current         Phase //Phase that the machine was in
+		PhaseTransition       // attempted transition that was rejected
 	}
 )
 
