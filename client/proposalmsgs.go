@@ -6,10 +6,11 @@
 package client
 
 import (
-	"golang.org/x/crypto/sha3"
 	"io"
 	"log"
 	"math/big"
+
+	"golang.org/x/crypto/sha3"
 
 	"github.com/pkg/errors"
 
@@ -43,7 +44,7 @@ func init() {
 type SessionID = [32]byte
 
 // ChannelProposalReq is the wire message that is derived from the
-// ChannelProposal.
+// ChannelProposal. Look at the documentation of ChannelProposal for more explanation.
 //
 // ChannelProposalReq implements the channel proposal messages from the
 // Multi-Party Channel Proposal Protocol (MPCPP).
@@ -236,8 +237,8 @@ func (c ChannelProposalReq) Valid() error {
 // The type implements the channel proposal response messages from the
 // Multi-Party Channel Proposal Protocol (MPCPP).
 type ChannelProposalAcc struct {
-	SessID          SessionID
-	ParticipantAddr wallet.Address
+	SessID          SessionID      // temporary ID used for channel messages
+	ParticipantAddr wallet.Address // off-chain Address
 }
 
 // Type returns msg.ChannelProposalAcc.
@@ -274,8 +275,8 @@ func (acc *ChannelProposalAcc) Decode(r io.Reader) (err error) {
 // The message is one of two possible responses in the
 // Multi-Party Channel Proposal Protocol (MPCPP).
 type ChannelProposalRej struct {
-	SessID SessionID
-	Reason string
+	SessID SessionID // temporary ID used for channel messages
+	Reason string    // reason for the rejection
 }
 
 // Type returns msg.ChannelProposalRej.

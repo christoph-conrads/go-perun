@@ -26,13 +26,21 @@ type (
 	// This is the same as ChannelProposalMsg but with an account instead of only
 	// the address of the proposer. ChannelProposal is not sent over the wire.
 	ChannelProposal struct {
+		// ChallengeDuration duration in seconds how long the Adjudicator waits before it assumes a timeout.
 		ChallengeDuration uint64
-		Nonce             *big.Int
-		Account           wallet.Account // local account to use when creating this channel
-		AppDef            wallet.Address
-		InitData          channel.Data
-		InitBals          *channel.Allocation
-		PeerAddrs         []wallet.Address // Perun addresses of all peers, including the proposer's
+		// Nonce random value to make every channel unique. Should be generated cryptographically secure.
+		Nonce *big.Int
+		// Account off-chain Account that is used for the channel.
+		Account wallet.Account
+		// AppDef the Address of the app that will be executed in the channel.
+		AppDef wallet.Address
+		// InitData initial data of the App.
+		InitData channel.Data
+		// InitBals initial balances of the channel.
+		InitBals *channel.Allocation
+		// PeerAddr PerunIDs (currently onchain Addresses) of all peers participating in the channel.
+		// The first entry is the proposer's.
+		PeerAddrs []wallet.Address
 	}
 
 	// A ProposalHandler decides how to handle incoming channel proposals from
@@ -58,6 +66,7 @@ type (
 	// ProposalResponder.Accept() when they want to accept an incoming channel
 	// proposal.
 	ProposalAcc struct {
+		// Participant off-chain Account which you want use for the channel.
 		Participant wallet.Account
 	}
 )
