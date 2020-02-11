@@ -17,10 +17,8 @@ var _ LevelLogger = &Levellified{StdLogger: &log.Logger{}}
 // logger's Print{,f,ln} methods with the prefix [level], except for levels
 // PanicLevel and FatalLevel, which are forwarded to the respective methods.
 type Levellified struct {
-	// wrapped logger
-	StdLogger
-	// Lvl is the current logging level
-	Lvl Level
+	StdLogger       // wrapped logger
+	Lvl       Level // current logging level
 }
 
 // Level is the log level.
