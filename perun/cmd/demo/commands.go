@@ -57,6 +57,11 @@ func init() {
 			"Info",
 			func(args []string) error { return backend.Info(args) },
 		}, {
+			"benchmark",
+			[]argument{{"peer", valPeer}, {"n", valUInt}},
+			"",
+			func(args []string) error { return backend.Benchmark(args) },
+		}, {
 			"help",
 			nil,
 			"Prints all possible commands",
