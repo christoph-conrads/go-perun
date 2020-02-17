@@ -6,6 +6,9 @@
 package logrus
 
 import (
+	"encoding/hex"
+	"fmt"
+
 	"github.com/sirupsen/logrus"
 
 	"perun.network/go-perun/log"
@@ -25,13 +28,24 @@ func FromLogrus(l *logrus.Logger) *Logger {
 
 // WithField calls WithField on the logrus.Logger.
 func (l *Logger) WithField(key string, value interface{}) log.Logger {
-	return &Logger{l.Entry.WithField(key, value)}
+	if str, ok := value.(fmt.Stringer); ok {
+		return &Logger{l.Entry.WithField(key, str.String())}
+	}
+	switch v := value.(type) {
+	case [32]byte:
+		return &Logger{l.Entry.WithField(key, hex.EncodeToString(v[:]))}
+	default:
+		return &Logger{l.Entry.WithField(key, value)}
+	}
 }
 
-// WithFields calls WithFields on the logrus.Logger.
-func (l *Logger) WithFields(fields log.Fields) log.Logger {
-	var fs map[string]interface{} = fields
-	return &Logger{l.Entry.WithFields(fs)}
+// WithFields calls WithField for all passed fields.
+func (l *Logger) WithFields(fields log.Fields) (ret log.Logger) {
+	ret = &Logger{l.Entry}
+	for k, v := range fields {
+		ret = ret.WithField(k, v)
+	}
+	return
 }
 
 // WithError calls WithError on the logrus.Logger.
