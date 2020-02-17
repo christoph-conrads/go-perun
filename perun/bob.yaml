@@ -1,0 +1,24 @@
+seed: 10
+
+channel:
+  timeout: 10s
+  fundtimeout: 30s
+  settletimeout: 30s
+  challengedurationsec: 60
+
+node:
+ ip: 0.0.0.0
+ inport: 1338
+ outport: 1337
+ dialtimeout: 10s
+ handletimeout: 10s
+
+chain:
+ url: ws://10.70.5.70:8546
+ adjudicator: deploy
+ assetholder: deploy
+ adjdeploytimeout: 10s
+ assdeploytimeout: 10s
+
+log:
+ level: trace
