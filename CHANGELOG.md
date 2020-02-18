@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.0]: Belinda - 2020-2-21
+## [0.2.0]: Belinda - 2020-02-21
 ### Added
 - Ledger state channel disputes
 - Ethereum contracts for disputes
