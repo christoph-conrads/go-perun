@@ -28,7 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `channel/machine` subscription logic
 
 ### Fixed
-- ? Spelling mistakes
 - Cyclomatic simplifications
 - Deadlock in Two-party payment test
 - `TestSettler_MultipleSettles` timeout
