@@ -24,17 +24,18 @@ This release is not intended for practical use with real money.
 - `Serializable` renamed to `Serializer`
 - Unified backend imports
 - `pkg/io/test/bytewiseReader` to `iotest.OneByteReader`
+- Improved message handling mechanism.
 - Many refactors to improve the overall code quality.
 
 ### Removed
-- Wallet interface
+- Wallet interface.
 - ethereum/wallet `NewAddressFromBytes`
 - `channel/machine` subscription logic
 
 ### Fixed
-- Cyclomatic simplifications
-- Deadlock in Two-party payment test
-- `TestSettler_MultipleSettles` timeout
+- Reduced cyclomatic complexity of complex functions.
+- Deadlock in two-party payment channel test.
+- `TestSettler_MultipleSettles` timeout.
 - Many minor bug fixes, mainly concurrency issues in tests.
 
 ## [0.1.0]: Ariel - 2019-12-20
