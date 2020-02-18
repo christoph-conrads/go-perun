@@ -8,19 +8,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0]: Belinda - 2020-2-21
 ### Added
-- Changelog
+- Ledger state channel disputes
+- Ethereum contracts for disputes
 - Public [Github wiki](https://github.com/perun-network/go-perun/wiki)
 - [Godoc](https://godoc.org/perun.network/go-perun)
+- Changelog
 - [TravisCI](https://travis-ci.org/perun-network)
 - [goreportcard](https://goreportcard.com/report/github.com/perun-network/go-perun)
 - [codeclimate](https://codeclimate.com/github/perun-network/go-perun)
-- Ledger channel dispute
-- Ethereum contracts for disputes
   
 ### Changed
 - `Serializable` renamed to `Serializer`
 - Unified backend imports
-- `pkg/io/test/bytewiteReader` to `iotest.OneByteReader`
+- `pkg/io/test/bytewiseReader` to `iotest.OneByteReader`
 
 ### Removed
 - Wallet interface
