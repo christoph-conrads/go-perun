@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ## [0.2.0]: Belinda - 2020-02-21
+Added direct disputes for two-party ledger channels, much polishing (refactors, bug fixes, documentation).
+This release is not intended for practical use with real money.
+
 ### Added
 - Ledger state channel disputes
 - Ethereum contracts for disputes
@@ -35,6 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Many minor bug fixes, mainly concurrency issues in tests.
 
 ## [0.1.0]: Ariel - 2019-12-20
+Initial release, intended to receive feedback and not for practical use with real money.
+
 ### Added
 - Two-party ledger state channels
 - Cooperatively settling two-party ledger channels
