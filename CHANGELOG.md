@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Serializable` renamed to `Serializer`
 - Unified backend imports
 - `pkg/io/test/bytewiseReader` to `iotest.OneByteReader`
+- Many refactors to improve the overall code quality.
 
 ### Removed
 - Wallet interface
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Cyclomatic simplifications
 - Deadlock in Two-party payment test
 - `TestSettler_MultipleSettles` timeout
+- Many minor bug fixes, mainly concurrency issues in tests.
 
 ## [0.1.0]: Ariel - 2019-12-20
 ### Added
