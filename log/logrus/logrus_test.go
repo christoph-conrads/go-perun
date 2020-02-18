@@ -8,12 +8,16 @@ package logrus
 import (
 	"bytes"
 	"errors"
+	"math/rand"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
+	_ "perun.network/go-perun/backend/ethereum" // backend init
+	"perun.network/go-perun/log"
+	wtest "perun.network/go-perun/wallet/test"
 
 	"github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestLogrus(t *testing.T) {
@@ -60,4 +64,25 @@ func TestLogrus(t *testing.T) {
 	}).WithError(e).Warnln("Doris Day")
 	a.Contains(buf.String(), "Doris Day")
 	a.Contains(buf.String(), "error-message")
+
+	rng := rand.New(rand.NewSource(0xDDDDD))
+	addr := wtest.NewRandomAddress(rng)
+	// test fmt.Stringer, WithField
+	buf = new(bytes.Buffer)
+	FromLogrus(&logrus.Logger{
+		Out:       buf,
+		Formatter: new(logrus.TextFormatter),
+		Hooks:     nil,
+		Level:     logrus.DebugLevel,
+	}).WithField("", addr).Infoln("")
+	a.Contains(buf.String(), "0x296342667D16ee21C81FD0E8F298e0EFd2357a08")
+	// test fmt.Stringer, WithFields
+	buf = new(bytes.Buffer)
+	FromLogrus(&logrus.Logger{
+		Out:       buf,
+		Formatter: new(logrus.TextFormatter),
+		Hooks:     nil,
+		Level:     logrus.DebugLevel,
+	}).WithFields(log.Fields{"": addr}).Infoln("")
+	a.Contains(buf.String(), "0x296342667D16ee21C81FD0E8F298e0EFd2357a08")
 }
